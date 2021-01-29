@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype 
 
 RUN docker-php-ext-install \
-    pdo pdo_mysql zip xsl gd intl opcache exif mbstring
+    pdo pdo_mysql zip xsl gd intl opcache exif mbstring session
 
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone \
@@ -32,5 +32,12 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
     && "date"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+
+RUN git config --global user.email "eswat98@mail.ru"
+RUN git config --global user.name "eswat109"
 
 WORKDIR /var/www/symfony
